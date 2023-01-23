@@ -1,0 +1,16 @@
+﻿Excel.Application을 이용하려면 프로젝트에 Microsoft.Office.Interop.Excel 항목을 참조 추가하여야한다.
+
+추가 방법은 
+Project -> Add Reference -> COM 탭 -> Microsoft Excel Object Library체크 -> OK
+(Interop.Microsoft.Office.Interop.Excel 16)
+
+
+// 메모리 스트림에 저장 불가능 하므로, 임시 파일에 저장 ㅎ
+    MemoryStream obj_stream = new MemoryStream();
+      var tempFile = System.IO.Path.Combine(System.IO.Path.GetTempPath(), Guid.NewGuid() + ".xls");
+      obj_excelwork.SaveAs(tempFile);
+      obj_excelwork.Close();
+      obj_excepapp.Quit();
+      obj_stream = new MemoryStream(File.ReadAllBytes(tempFile));
+      File.Delete(tempFile);
+      obj_stream.Position = 0;
